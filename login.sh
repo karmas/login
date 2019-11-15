@@ -76,6 +76,7 @@ function login()
 {
   local id cmd prefix user keyfile password
   read -p 'enter id to login: ' id
+  [ -z "$id" ] && id=0
   prefix="${KEYPREFIX}${id}_"
   user=${allHosts["${prefix}user"]:-}
   if [ -z "$user" ]; then
@@ -93,7 +94,7 @@ function login()
   password="${allHosts["${prefix}password"]:-}"
   [ -n "$password" ] && echo "password: $password"
 
-  cmd="ssh $keyfile $user@${allHosts["${prefix}ip"]}"
+  cmd="ssh -Y $keyfile $user@${allHosts["${prefix}ip"]}"
   echo $cmd
   $cmd
 }
